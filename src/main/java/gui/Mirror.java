@@ -1,8 +1,9 @@
-package main;
+package gui;
 
 import java.io.IOException;
 import java.util.Arrays;
 
+import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.gui2.BasicWindow;
@@ -24,6 +25,7 @@ public class Mirror {
 	Screen screen;
 	Panel 	pStatus,
 			pMap;
+	Map		map;
 
 	public Mirror() {
 		try {
@@ -41,6 +43,8 @@ public class Mirror {
 	private void init() throws IOException {
 		terminal = new DefaultTerminalFactory().createTerminal();
 		screen = new TerminalScreen(terminal);
+		
+		map = new Map();
 
 		screen.startScreen();
 	}
@@ -65,15 +69,16 @@ public class Mirror {
 	    Panel mainPanel = new Panel();
 	    mainPanel.setLayoutManager(new LinearLayout(Direction.HORIZONTAL));
 
-	    pStatus = new Panel();
+	    pStatus = new Status().getpStatus();
 	    mainPanel.addComponent(pStatus.withBorder(Borders.singleLine("Status")));
 
-	    pMap = new Panel();
+	    pMap = map.getMap();
 	    mainPanel.addComponent(pMap.withBorder(Borders.singleLine("Map")));
 
 	    window.setComponent(mainPanel);
 	    
 	    MultiWindowTextGUI gui = new MultiWindowTextGUI(screen, new DefaultWindowManager(), new EmptySpace(TextColor.ANSI.BLUE));
+	    
 	    gui.addWindowAndWait(window);
 	}
 

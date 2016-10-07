@@ -1,6 +1,6 @@
 package main;
 
-import java.io.IOException;
+import gui.Mirror;
 
 public class Main {
 
