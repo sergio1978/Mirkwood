@@ -1,4 +1,4 @@
-package characters;
+package script;
 
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TextColor;
@@ -18,11 +18,9 @@ public class Hero {
 		this._name = _name;
 		this._position = _position;
 
-		/*
-		this._foregroundColor = new TextColor.RGB(255, 255, 255));
-		this._bkgColor = new TextColor.RGB(20, 20, 150));
-		graphics.setCharacter(new TerminalPosition(playerpos[0], playerpos[1]), SymbolsMirk.HERO);
-	*/
+		
+		this._bkgColor = new TextColor.RGB(255, 255, 255);
+		this._foregroundColor = new TextColor.RGB(20, 20, 150);
 	}
 
 	public String get_name() {

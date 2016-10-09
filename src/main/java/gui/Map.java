@@ -12,14 +12,19 @@ import com.googlecode.lanterna.gui2.ComponentRenderer;
 import com.googlecode.lanterna.gui2.EmptySpace;
 import com.googlecode.lanterna.gui2.Panel;
 import com.googlecode.lanterna.gui2.TextGUIGraphics;
+import com.googlecode.lanterna.input.KeyStroke;
 
-public class TerminalMap extends Panel {
+import script.Characters;
+import script.Foe;
+import script.Hero;
 
-	public static final int COLUMNS = 60;
-	public static final int LINES = 20;
+public class Map extends Panel {
+
+	public static final int COLUMNS = 40;
+	public static final int LINES = 12;
 	
 	public static final int TREECOUNT = 400;
-	public static final int BRANCHESCOUNT = 100;
+	public static final int BRANCHESCOUNT = 250;
 	
 	Random mRand;
 	
@@ -30,15 +35,14 @@ public class TerminalMap extends Panel {
 	Tree[] branchespos = new Tree[BRANCHESCOUNT];
 	RGB bkgColor = new TextColor.RGB(165, 127, 61);
 	
-	
-	
-	
+	Characters _chars;
 
 	EmptySpace land;
 
-	public TerminalMap() {
+	public Map(Characters chars) {
 		super();
 
+		_chars = chars;
 		getBasePane();
 		
 		mRand = new Random();
@@ -50,7 +54,7 @@ public class TerminalMap extends Panel {
 			protected ComponentRenderer<EmptySpace> createDefaultRenderer() {
 				return new ComponentRenderer<EmptySpace>() {
 					public TerminalSize getPreferredSize(EmptySpace component) {
-						return new TerminalSize(PanelMap.COLUMNS, PanelMap.LINES);
+						return new TerminalSize(Map.COLUMNS, Map.LINES);
 					}
 
 					public void drawComponent(TextGUIGraphics graphics, EmptySpace component) {
@@ -90,11 +94,16 @@ public class TerminalMap extends Panel {
 						/*
 						 * Draw characters
 						 */
-						/*
-						graphics.setBackgroundColor();
-						graphics.setForegroundColor(new TextColor.RGB(20, 20, 150));
-						graphics.setCharacter(new TerminalPosition(playerpos[0], playerpos[1]), SymbolsMirk.HERO);
-						*/
+						Hero h = _chars.getHero();
+						graphics.setBackgroundColor(h.get_bkgColor());
+						graphics.setForegroundColor(h.get_foregroundColor());
+						graphics.setCharacter(h.get_position(), h.get_face());
+
+						graphics.setModifiers(EnumSet.of(SGR.BLINK));
+						Foe f = _chars.getFoe();
+						graphics.setBackgroundColor(f.get_bkgColor());
+						graphics.setForegroundColor(f.get_foregroundColor());
+						graphics.setCharacter(f.get_position(), f.get_face());
 					}
 				};
 			}
@@ -121,6 +130,30 @@ public class TerminalMap extends Panel {
 
 	public void refreshLand() {
 		land.invalidate();
+	}
+	
+	public void updatePlayer(KeyStroke keyStroke) {
+		TerminalPosition ppos = _chars.getHero().get_position();
+		Hero player = _chars.getHero();
+		switch (keyStroke.getCharacter()) {
+		case 'w':
+			player.set_position(new TerminalPosition(ppos.getColumn(), ppos.getRow() - 1));
+			break;
+		case 's':
+			player.set_position(new TerminalPosition(ppos.getColumn(), ppos.getRow()+1));
+			break;
+		case 'a':
+			player.set_position(new TerminalPosition(ppos.getColumn()-1, ppos.getRow()));
+			break;
+		case 'd':
+			player.set_position(new TerminalPosition(ppos.getColumn()+1, ppos.getRow()));
+			break;
+		default:
+			System.out.println(keyStroke.getCharacter().toString());
+			break;
+		}
+		
+		refreshLand();
 	}
 
 	/*

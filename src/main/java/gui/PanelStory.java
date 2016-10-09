@@ -1,5 +1,6 @@
 package gui;
 
+import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.gui2.BorderLayout;
 import com.googlecode.lanterna.gui2.Direction;
 import com.googlecode.lanterna.gui2.GridLayout;
@@ -14,15 +15,14 @@ public class PanelStory extends Panel {
 
 	public PanelStory() {
 		setLayoutManager(new BorderLayout());
-		verticalScroll = new ScrollBar(Direction.VERTICAL);
 
-		verticalScroll.setLayoutData(
-				GridLayout.createLayoutData(GridLayout.Alignment.CENTER, GridLayout.Alignment.FILL, false, true));
+		GridLayout.createLayoutData(GridLayout.Alignment.CENTER, GridLayout.Alignment.FILL, false, true);
 		mLabel = new TextBox(
 				"It was getting dark... \nAnd you still haven't found a place to rest.\nThe last fights have left you in poor shape. \n Now you're at your peak, and everyone in Mirkwood know you by your war name. ");
 
 		mLabel.setReadOnly(true);
 		mLabel.setCaretWarp(true);
+		setPreferredSize(new TerminalSize(Map.COLUMNS,4));
 //		mLabel.
 	//	addComponent(verticalScroll, BorderLayout.Location.RIGHT);
 		addComponent(mLabel, BorderLayout.Location.CENTER);

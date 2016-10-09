@@ -25,22 +25,27 @@ import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 
-import characters.Hero;
+import script.Characters;
+import script.Hero;
 
 public class Mirror {
 	Terminal terminal;
 	Screen screen;
 	Panel 	pStatus,
 			pMap;
-	TerminalMap		map;
+	Map		map;
+	
+	MultiWindowTextGUI board;
 	
 	Hero hero;
+	Characters _chars;
 
 	public Mirror() {
 		try {
 			init();
 			
-			initCharacters();
+			_chars = new Characters();
+
 			
 			buildPanels();
 
@@ -50,104 +55,48 @@ public class Mirror {
 		}
 
 	}
-
-	private void initCharacters() {
-		hero = new Hero("Sir Guinetti", new TerminalPosition(0, TerminalMap.LINES));
-	}
 	
 	private void init() throws IOException {
 		terminal = new DefaultTerminalFactory().createTerminal();
 		screen = new TerminalScreen(terminal);
 		
-		map = new TerminalMap();
+		_chars = new Characters();
+		map = new Map(_chars);
 
 		screen.startScreen();
+	    board = new MultiWindowTextGUI(screen, new DefaultWindowManager(), new EmptySpace(TextColor.ANSI.BLACK));
 		
-
-	}
-
-	public void draw() throws IOException {
-		String s = "Hello World!";
-		TextGraphics tGraphics = screen.newTextGraphics();
-
-		screen.clear();
-
-		tGraphics.putString(10, 10, s);
-		screen.refresh();
-
-		screen.readInput();
-		screen.stopScreen();
 	}
 	
 	private void buildPanels(){
 	    BasicWindow window = new BasicWindow();
+	    window.setTitle("Mirror");
 	    window.setHints(Arrays.asList(Window.Hint.FULL_SCREEN));
 
 	    Panel mainPanel = new Panel();
 	    mainPanel.setLayoutManager(new GridLayout(2));
 
 	    pStatus = new Status().getpStatus();
-	    mainPanel.addComponent(pStatus.withBorder(Borders.singleLine("Status")));
 
-	    
-	    pMap = new Panel(new LinearLayout(Direction.VERTICAL));
-	    
-	    /*
-	    final PanelMap map = (new PanelMap());
-	    pMap.addComponent(map.withBorder(Borders.singleLine("Map")));
-	    */
-	    pMap.addComponent(new TerminalMap().withBorder(Borders.singleLine("Map")));
-/*	    Panel pEvents = new Panel(new LinearLayout(Direction.VERTICAL));
-	    pEvents.withBorder(Borders.singleLine("Events"));
-	    pEvents.setPreferredSize(new TerminalSize(map.getSize().getColumns(), 3));
-*/	    
-	    /*
-	    AnimatedLabel lblE = new AnimatedLabel("It was getting dark...");
-	    lblE.addFrame("And you still haven't found a place to rest.");
-	    lblE.addFrame("The last fights have left you in poor shape");
-	    lblE.addFrame("Now you're at your peak, and everyone in Mirkwood know you by your war name. ");
-	    lblE.setPreferredSize(new TerminalSize(map.getMap().getPreferredSize().getColumns(),3));
-	    
-	    lblE.setPreferredSize(new TerminalSize(map.getMap().getPreferredSize().getColumns(),7));	    
-
-	    ScrollBar sb = new ScrollBar(Direction.VERTICAL);
-	    sb.addTo(pEvents);
-	    sb.setPreferredSize(lblE.getPreferredSize());
-	    sb.setViewSize(2);
-	    
-	    pEvents.addComponent(lblE);
-	  
-	    pEvents.setPreferredSize(new TerminalSize(map.getMap().getPreferredSize().getColumns(), 5));
-	    */
 	    PanelStory pstory = new PanelStory();
-	    pstory.setPreferredSize(new TerminalSize(map.getPreferredSize().getColumns(), 3));
-	    pMap.addComponent(pstory.withBorder(Borders.singleLine("Storyline")));
-	    mainPanel.addComponent(pMap);
+
+	    mainPanel.addComponent(pStatus.withBorder(Borders.singleLine("Status")));
+	    mainPanel.addComponent(map.withBorder(Borders.singleLine("Map")));
+	    mainPanel.addComponent(new EmptySpace());
+	    mainPanel.addComponent(pstory);
 
 	    window.setComponent(mainPanel);
+	    
 	    
 	    window.addWindowListener(new WindowListener() {
 			
 			public void onUnhandledInput(Window arg0, KeyStroke keyStroke, AtomicBoolean arg2) {
 				// TODO Auto-generated method stub
-			//	map.updatePlayer(keyStroke);
+				map.updatePlayer(keyStroke);
 				
-                switch(keyStroke.getKeyType()) {
-                    case ArrowUp:
-                    	System.out.println("up!");
-                    	break;
-                    case ArrowDown:
-                    	System.out.println("down");
-                    	break;
-                    case ArrowLeft:
-                    	System.out.println("left");
-                    	break;
-                    case ArrowRight:
-                    	System.out.println("right!");
-                    	break;
-                    	default : System.out.println(keyStroke.getCharacter().toString());
-                    	break;
-                }
+				if(keyStroke.getCharacter() == 'f') {
+					board.addWindow(new DiaFight());
+				}
 			}
 			
 			public void onInput(Window arg0, KeyStroke arg1, AtomicBoolean arg2) {
@@ -166,10 +115,9 @@ public class Mirror {
 			}
 		});
 
-	    MultiWindowTextGUI gui = new MultiWindowTextGUI(screen, new DefaultWindowManager(), new EmptySpace(TextColor.ANSI.BLUE));
 	    
-	 //   window.setSize(new TerminalSize(columns, rows));
-	    gui.addWindowAndWait(window);
+//	    window.setSize(new TerminalSize(Map.COLUMNS+50, Map.LINES+10));
+	    board.addWindowAndWait(window);
 	    
 	}
 
