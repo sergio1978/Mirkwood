@@ -10,6 +10,7 @@ import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.gui2.BasicWindow;
 import com.googlecode.lanterna.gui2.Borders;
+import com.googlecode.lanterna.gui2.Component;
 import com.googlecode.lanterna.gui2.DefaultWindowManager;
 import com.googlecode.lanterna.gui2.Direction;
 import com.googlecode.lanterna.gui2.EmptySpace;
@@ -82,13 +83,18 @@ public class Mirror {
 	    pStatus = new Status().getpStatus();
 	    mainPanel.addComponent(pStatus.withBorder(Borders.singleLine("Status")));
 
+	    
 	    pMap = new Panel(new LinearLayout(Direction.VERTICAL));
+	    
+	    /*
 	    final PanelMap map = (new PanelMap());
 	    pMap.addComponent(map.withBorder(Borders.singleLine("Map")));
-	    Panel pEvents = new Panel(new LinearLayout(Direction.VERTICAL));
+	    */
+	    pMap.addComponent(new TerminalMap().withBorder(Borders.singleLine("Map")));
+/*	    Panel pEvents = new Panel(new LinearLayout(Direction.VERTICAL));
 	    pEvents.withBorder(Borders.singleLine("Events"));
 	    pEvents.setPreferredSize(new TerminalSize(map.getSize().getColumns(), 3));
-	    
+*/	    
 	    /*
 	    AnimatedLabel lblE = new AnimatedLabel("It was getting dark...");
 	    lblE.addFrame("And you still haven't found a place to rest.");
@@ -108,7 +114,7 @@ public class Mirror {
 	    pEvents.setPreferredSize(new TerminalSize(map.getMap().getPreferredSize().getColumns(), 5));
 	    */
 	    PanelStory pstory = new PanelStory();
-	    pstory.setPreferredSize(new TerminalSize(map.getPreferredSize().getColumns(), 5));
+	    pstory.setPreferredSize(new TerminalSize(map.getPreferredSize().getColumns(), 3));
 	    pMap.addComponent(pstory.withBorder(Borders.singleLine("Storyline")));
 	    mainPanel.addComponent(pMap);
 

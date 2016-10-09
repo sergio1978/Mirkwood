@@ -13,8 +13,8 @@ import com.googlecode.lanterna.gui2.Panel;
 import com.googlecode.lanterna.input.KeyStroke;
 
 public class PanelMap extends Panel {
-	private static final int COLUMNS = 62;
-	private static final int LINES = 21;
+	public static final int COLUMNS = 62;
+	public static final int LINES = 21;
 
 	Label player;
 

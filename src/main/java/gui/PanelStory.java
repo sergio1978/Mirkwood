@@ -6,10 +6,11 @@ import com.googlecode.lanterna.gui2.GridLayout;
 import com.googlecode.lanterna.gui2.Label;
 import com.googlecode.lanterna.gui2.Panel;
 import com.googlecode.lanterna.gui2.ScrollBar;
+import com.googlecode.lanterna.gui2.TextBox;
 
 public class PanelStory extends Panel {
 	ScrollBar verticalScroll;
-	Label mLabel;
+	TextBox mLabel;
 
 	public PanelStory() {
 		setLayoutManager(new BorderLayout());
@@ -17,12 +18,14 @@ public class PanelStory extends Panel {
 
 		verticalScroll.setLayoutData(
 				GridLayout.createLayoutData(GridLayout.Alignment.CENTER, GridLayout.Alignment.FILL, false, true));
-		mLabel = new Label(
-				"It was getting dark... And you still haven't found a place to rest. The last fights have left you in poor shape. Now you're at your peak, and everyone in Mirkwood know you by your war name. ");
+		mLabel = new TextBox(
+				"It was getting dark... \nAnd you still haven't found a place to rest.\nThe last fights have left you in poor shape. \n Now you're at your peak, and everyone in Mirkwood know you by your war name. ");
 
-		addComponent(verticalScroll, BorderLayout.Location.RIGHT);
+		mLabel.setReadOnly(true);
+		mLabel.setCaretWarp(true);
+//		mLabel.
+	//	addComponent(verticalScroll, BorderLayout.Location.RIGHT);
 		addComponent(mLabel, BorderLayout.Location.CENTER);
-
 	}
 
 }
