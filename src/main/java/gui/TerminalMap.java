@@ -31,6 +31,8 @@ public class TerminalMap extends Panel {
 	RGB bkgColor = new TextColor.RGB(165, 127, 61);
 	
 	
+	
+	
 
 	EmptySpace land;
 
@@ -85,9 +87,14 @@ public class TerminalMap extends Panel {
 							graphics.putString(waterpos[i]+2, i, String.valueOf(SymbolsMirk.WATER[0]));
 						}
 						
-						graphics.setBackgroundColor(new TextColor.RGB(255, 255, 255));
+						/*
+						 * Draw characters
+						 */
+						/*
+						graphics.setBackgroundColor();
 						graphics.setForegroundColor(new TextColor.RGB(20, 20, 150));
 						graphics.setCharacter(new TerminalPosition(playerpos[0], playerpos[1]), SymbolsMirk.HERO);
+						*/
 					}
 				};
 			}

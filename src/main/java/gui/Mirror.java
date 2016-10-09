@@ -10,12 +10,10 @@ import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.gui2.BasicWindow;
 import com.googlecode.lanterna.gui2.Borders;
-import com.googlecode.lanterna.gui2.Component;
 import com.googlecode.lanterna.gui2.DefaultWindowManager;
 import com.googlecode.lanterna.gui2.Direction;
 import com.googlecode.lanterna.gui2.EmptySpace;
 import com.googlecode.lanterna.gui2.GridLayout;
-import com.googlecode.lanterna.gui2.Label;
 import com.googlecode.lanterna.gui2.LinearLayout;
 import com.googlecode.lanterna.gui2.MultiWindowTextGUI;
 import com.googlecode.lanterna.gui2.Panel;
@@ -27,18 +25,22 @@ import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 
+import characters.Hero;
+
 public class Mirror {
 	Terminal terminal;
 	Screen screen;
 	Panel 	pStatus,
 			pMap;
-	PanelMap		map;
+	TerminalMap		map;
 	
-	Label player;
+	Hero hero;
 
 	public Mirror() {
 		try {
 			init();
+			
+			initCharacters();
 			
 			buildPanels();
 
@@ -49,11 +51,15 @@ public class Mirror {
 
 	}
 
+	private void initCharacters() {
+		hero = new Hero("Sir Guinetti", new TerminalPosition(0, TerminalMap.LINES));
+	}
+	
 	private void init() throws IOException {
 		terminal = new DefaultTerminalFactory().createTerminal();
 		screen = new TerminalScreen(terminal);
 		
-		map = new PanelMap();
+		map = new TerminalMap();
 
 		screen.startScreen();
 		
@@ -124,7 +130,7 @@ public class Mirror {
 			
 			public void onUnhandledInput(Window arg0, KeyStroke keyStroke, AtomicBoolean arg2) {
 				// TODO Auto-generated method stub
-				map.updatePlayer(keyStroke);
+			//	map.updatePlayer(keyStroke);
 				
                 switch(keyStroke.getKeyType()) {
                     case ArrowUp:
