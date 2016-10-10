@@ -1,20 +1,25 @@
 package gui;
 
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
-import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.gui2.BasicWindow;
 import com.googlecode.lanterna.gui2.Borders;
 import com.googlecode.lanterna.gui2.DefaultWindowManager;
-import com.googlecode.lanterna.gui2.Direction;
 import com.googlecode.lanterna.gui2.EmptySpace;
 import com.googlecode.lanterna.gui2.GridLayout;
-import com.googlecode.lanterna.gui2.LinearLayout;
 import com.googlecode.lanterna.gui2.MultiWindowTextGUI;
 import com.googlecode.lanterna.gui2.Panel;
 import com.googlecode.lanterna.gui2.Window;
@@ -76,7 +81,7 @@ public class Mirror {
 	    Panel mainPanel = new Panel();
 	    mainPanel.setLayoutManager(new GridLayout(2));
 
-	    pStatus = new Status().getpStatus();
+	    pStatus = new PanelStatus();
 
 	    PanelStory pstory = new PanelStory();
 
@@ -95,7 +100,9 @@ public class Mirror {
 				map.updatePlayer(keyStroke);
 				
 				if(keyStroke.getCharacter() == 'f') {
-					board.addWindow(new DiaFight());
+					BasicWindow diaFight = new WFight();
+					
+					board.addWindow(diaFight);
 				}
 			}
 			
@@ -116,9 +123,27 @@ public class Mirror {
 		});
 
 	    
+	 //   playMusic();
 //	    window.setSize(new TerminalSize(Map.COLUMNS+50, Map.LINES+10));
 	    board.addWindowAndWait(window);
 	    
+	    
+	}
+	
+	public void playMusic(){
+	    try {
+	    	InputStream in = getClass().getResourceAsStream("/assets/myst.mp3"); 
+	    //	new File()
+		//	BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+	    //    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("/assets/myst.mp3").getAbsoluteFile());
+	        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(in);
+	        Clip clip = AudioSystem.getClip();
+	        clip.open(audioInputStream);
+	        clip.start();
+	    } catch(Exception ex) {
+	        System.out.println("Error with playing sound.");
+	        ex.printStackTrace();
+	    }
 	}
 
 }

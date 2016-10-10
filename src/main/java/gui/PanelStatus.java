@@ -10,23 +10,23 @@ import com.googlecode.lanterna.gui2.Label;
 import com.googlecode.lanterna.gui2.LinearLayout;
 import com.googlecode.lanterna.gui2.Panel;
 
-public class Status {
+public class PanelStatus extends Panel{
 	private Panel pStatus;
 	private Label lblHP,
 		lblStamina,
 		lblPower;
 	
-	public Status() {
-		pStatus = new Panel(new GridLayout(2));
+	public PanelStatus() {
+		super(new GridLayout(2));
 		
-		pStatus.addComponent(new Label("HP"));
-		pStatus.addComponent(createLabel(lblHP, "HP"));
+		addComponent(new Label("HP"));
+		addComponent(createLabel(lblHP, "HP"));
 		
-		pStatus.addComponent(new Label("Stamina"));
-		pStatus.addComponent(createLabel(lblStamina, "Stamina"));
+		addComponent(new Label("Stamina"));
+		addComponent(createLabel(lblStamina, "Stamina"));
 		
-		pStatus.addComponent(new Label("Power"));
-		pStatus.addComponent(createLabel(lblPower, "Power"));
+		addComponent(new Label("Power"));
+		addComponent(createLabel(lblPower, "Power"));
 		
 		
 	}
