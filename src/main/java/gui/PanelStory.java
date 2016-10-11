@@ -29,7 +29,7 @@ public class PanelStory extends Panel {
 		mLabel.setReadOnly(true);
 		mLabel.setCaretWarp(true);
 		
-		setPreferredSize(new TerminalSize(Map.COLUMNS,3));
+		setPreferredSize(new TerminalSize(Map.COLUMNS+ 2,3));
 //		mLabel.
 	//	addComponent(verticalScroll, BorderLayout.Location.RIGHT);
 		addComponent(mLabel, BorderLayout.Location.CENTER);

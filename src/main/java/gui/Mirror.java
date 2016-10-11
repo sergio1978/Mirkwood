@@ -1,16 +1,8 @@
 package gui;
 
-import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicBoolean;
-
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
@@ -32,26 +24,27 @@ import com.googlecode.lanterna.terminal.Terminal;
 
 import script.Characters;
 import script.Hero;
+import util.AudioFilePlayer;
 
 public class Mirror {
 	Terminal terminal;
 	Screen screen;
-	Panel 	pStatus,
-			pMap;
-	Map		map;
-	
+	Panel pStatus, pMap;
+	Map map;
+
 	MultiWindowTextGUI board;
-	
+
 	Hero hero;
 	Characters _chars;
+	
+	AudioFilePlayer ap;
 
 	public Mirror() {
 		try {
 			init();
-			
+
 			_chars = new Characters();
 
-			
 			buildPanels();
 
 		} catch (IOException e) {
@@ -60,19 +53,19 @@ public class Mirror {
 		}
 
 	}
-	
+
 	private void init() throws IOException {
 		terminal = new DefaultTerminalFactory().createTerminal();
 		screen = new TerminalScreen(terminal);
-		
+
 		_chars = new Characters();
 		map = new Map(_chars);
 
 		screen.startScreen();
-	    board = new MultiWindowTextGUI(screen, new DefaultWindowManager(), new EmptySpace(TextColor.ANSI.BLACK));
-		
+		board = new MultiWindowTextGUI(screen, new DefaultWindowManager(), new EmptySpace(TextColor.ANSI.BLACK));
+
 	}
-	
+
 	private void buildPanels(){
 	    BasicWindow window = new BasicWindow();
 	    window.setTitle("Mirror");
@@ -103,6 +96,11 @@ public class Mirror {
 					BasicWindow diaFight = new WFight();
 					
 					board.addWindow(diaFight);
+				} else if (keyStroke.getCharacter() == 'm') {
+					if (ap.isPlaying())
+						ap.stop();
+					else
+						ap.startPlaying();
 				}
 			}
 			
@@ -122,28 +120,44 @@ public class Mirror {
 			}
 		});
 
-	    
-	 //   playMusic();
+		ap = AudioFilePlayer.getFilePlayer("/assets/myst.mp3");
+		
+		ap.startPlaying();
+	          
 //	    window.setSize(new TerminalSize(Map.COLUMNS+50, Map.LINES+10));
 	    board.addWindowAndWait(window);
 	    
 	    
 	}
-	
+	/*
 	public void playMusic(){
 	    try {
-	    	InputStream in = getClass().getResourceAsStream("/assets/myst.mp3"); 
+	    	/*
+	    	URL in = getClass().getResource(); 
 	    //	new File()
+	    	InputStream is= getClass().getResourceAsStream("/assets/myst.mp3");
+	    	AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(is);
 		//	BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-	    //    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("/assets/myst.mp3").getAbsoluteFile());
-	        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(in);
+	    //    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(in.getFile()).getAbsoluteFile());
+	    //    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(in);
 	        Clip clip = AudioSystem.getClip();
 	        clip.open(audioInputStream);
 	        clip.start();
+	        
+	    	URL in = getClass().getResource("/assets/myst.mp3");
+	        Media hit = new Media(in.toString());
+	        MediaPlayer mediaPlayer = new MediaPlayer(hit);
+	        mediaPlayer.play();
+	        
+	    	URL in = getClass().getResource("/assets/myst.mp3");
+	        FileInputStream fis = new FileInputStream(in.getFile());
+	        Player playMP3 = new Player(fis);
+	        playMP3.play();
 	    } catch(Exception ex) {
 	        System.out.println("Error with playing sound.");
 	        ex.printStackTrace();
 	    }
 	}
+	*/
 
 }
