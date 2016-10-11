@@ -14,6 +14,7 @@ import com.googlecode.lanterna.gui2.EmptySpace;
 import com.googlecode.lanterna.gui2.GridLayout;
 import com.googlecode.lanterna.gui2.MultiWindowTextGUI;
 import com.googlecode.lanterna.gui2.Panel;
+import com.googlecode.lanterna.gui2.TextGUI;
 import com.googlecode.lanterna.gui2.Window;
 import com.googlecode.lanterna.gui2.WindowListener;
 import com.googlecode.lanterna.input.KeyStroke;
@@ -55,7 +56,7 @@ public class Mirror {
 	}
 
 	private void init() throws IOException {
-		terminal = new DefaultTerminalFactory().createTerminal();
+		terminal = new DefaultTerminalFactory().createTerminal();	
 		screen = new TerminalScreen(terminal);
 
 		_chars = new Characters();
@@ -93,9 +94,37 @@ public class Mirror {
 				map.updatePlayer(keyStroke);
 				
 				if(keyStroke.getCharacter() == 'f') {
-					BasicWindow diaFight = new WFight();
+					BasicWindow diaFight = new WFight(Mirror.this);
 					
+					ap.stop();
 					board.addWindow(diaFight);
+					diaFight.addWindowListener(new WindowListener() {
+						
+						@Override
+						public void onUnhandledInput(Window arg0, KeyStroke arg1, AtomicBoolean arg2) {
+							// TODO Auto-generated method stub
+							
+						}
+						
+						@Override
+						public void onInput(Window arg0, KeyStroke arg1, AtomicBoolean arg2) {
+							// TODO Auto-generated method stub
+							
+						}
+						
+						@Override
+						public void onResized(Window arg0, TerminalSize arg1, TerminalSize arg2) {
+							// TODO Auto-generated method stub
+							
+						}
+						
+						@Override
+						public void onMoved(Window arg0, TerminalPosition arg1, TerminalPosition arg2) {
+							// TODO Auto-generated method stub
+							
+						}
+					});
+					
 				} else if (keyStroke.getCharacter() == 'm') {
 					if (ap.isPlaying())
 						ap.stop();
@@ -120,15 +149,23 @@ public class Mirror {
 			}
 		});
 
-		ap = AudioFilePlayer.getFilePlayer("/assets/myst.mp3");
+		ap = AudioFilePlayer.getFilePlayer("/assets/myst.ogg");
 		
 		ap.startPlaying();
 	          
 //	    window.setSize(new TerminalSize(Map.COLUMNS+50, Map.LINES+10));
 	    board.addWindowAndWait(window);
 	    
-	    
+	   
 	}
+	
+	public void musicStatus(boolean status) {
+		if (status)
+			ap.startPlaying();
+		else 
+			ap.stop();
+	}
+	
 	/*
 	public void playMusic(){
 	    try {

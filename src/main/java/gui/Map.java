@@ -20,8 +20,8 @@ import script.Hero;
 
 public class Map extends Panel {
 
-	public static final int COLUMNS = 40;
-	public static final int LINES = 12;
+	public static final int COLUMNS = 50;
+	public static final int LINES = 16;
 	
 	public static final int TREECOUNT = 400;
 	public static final int BRANCHESCOUNT = 250;

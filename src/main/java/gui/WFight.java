@@ -21,17 +21,27 @@ import com.googlecode.lanterna.gui2.Window;
 import com.googlecode.lanterna.gui2.WindowListener;
 import com.googlecode.lanterna.input.KeyStroke;
 
+import util.AudioFilePlayer;
 import util.FileSystem;
 
 public class WFight extends BasicWindow {
 	
 	Label _lMoves;
 	
+	AudioFilePlayer bkg_music;
+	AudioFilePlayer _soundEffects;
+	Mirror _baseWindow;
 
-	public WFight(){
+	public WFight(Mirror base){
 		super();
+		this._baseWindow = base;
 	    setTitle("Fight to survive!");
 	    setHints(Arrays.asList(Window.Hint.CENTERED));
+	    
+	    bkg_music = AudioFilePlayer.getFilePlayer("/assets/fightMusic.ogg");
+	    bkg_music.startPlaying();
+	    
+	    AudioFilePlayer.getFilePlayer("/assets/jump.ogg").startPlaying();
 	    
 	    		
 		Panel mPanel = new Panel(new LinearLayout(Direction.VERTICAL));
@@ -84,7 +94,9 @@ public class WFight extends BasicWindow {
 		photoStatus.addComponent(pstatevent);
 		Button okButton = new Button("Run Away", new Runnable() {
             public void run() {
-                close();                
+                close(); 
+                bkg_music.stop();
+                _baseWindow.musicStatus(true);
             }
         }).setLayoutData(LinearLayout.createLayoutData(LinearLayout.Alignment.Center));
 		
@@ -96,6 +108,8 @@ public class WFight extends BasicWindow {
 			public void onUnhandledInput(Window arg0, KeyStroke arg1, AtomicBoolean arg2) {
 				// TODO Auto-generated method stub
 				_lMoves.setText(String.valueOf(arg1.getCharacter()));
+				if (arg1.getCharacter() == 'h')
+					AudioFilePlayer.getFilePlayer("/assets/hit_op1.ogg").startPlaying();
 			}
 			
 			public void onInput(Window arg0, KeyStroke arg1, AtomicBoolean arg2) {
@@ -112,6 +126,8 @@ public class WFight extends BasicWindow {
 				// TODO Auto-generated method stub
 				
 			}
+			
+			
 		});
 		
 		setComponent(mPanel);
