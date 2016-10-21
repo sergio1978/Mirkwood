@@ -39,6 +39,7 @@ public class AudioFilePlayer {
 	}
 	
 	private void play() {
+            /*
 		URL urlfile = getClass().getResource(file);
 		final File file = new File(urlfile.getFile()).getAbsoluteFile();
 		try (final AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file)) {
@@ -96,5 +97,6 @@ public class AudioFilePlayer {
 		for (int n = 0; n != -1; n = in.read(buffer, 0, buffer.length)) {
 			line.write(buffer, 0, n);
 		}
+*/
 	}
 }

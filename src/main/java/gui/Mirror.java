@@ -96,7 +96,7 @@ public class Mirror {
 				if(keyStroke.getCharacter() == 'f') {
 					BasicWindow diaFight = new WFight(Mirror.this);
 					
-					ap.stop();
+				//	ap.stop();
 					board.addWindow(diaFight);
 					diaFight.addWindowListener(new WindowListener() {
 						
@@ -126,13 +126,17 @@ public class Mirror {
 					});
 					
 				} else if (keyStroke.getCharacter() == 'm') {
-					if (ap.isPlaying())
+				/*	if (ap.isPlaying())
 						ap.stop();
 					else
 						ap.startPlaying();
+                                    */
 				}
+                                    
 			}
 			
+                              
+                        @Override
 			public void onInput(Window arg0, KeyStroke arg1, AtomicBoolean arg2) {
 				// TODO Auto-generated method stub
 				
@@ -160,10 +164,12 @@ public class Mirror {
 	}
 	
 	public void musicStatus(boolean status) {
+            /*
 		if (status)
 			ap.startPlaying();
 		else 
 			ap.stop();
+            */
 	}
 	
 	/*

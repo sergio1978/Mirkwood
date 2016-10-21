@@ -95,7 +95,7 @@ public class WFight extends BasicWindow {
 		Button okButton = new Button("Run Away", new Runnable() {
             public void run() {
                 close(); 
-                bkg_music.stop();
+              //  bkg_music.stop();
                 _baseWindow.musicStatus(true);
             }
         }).setLayoutData(LinearLayout.createLayoutData(LinearLayout.Alignment.Center));
