@@ -6,7 +6,7 @@ import com.googlecode.lanterna.TextColor.RGB;
 
 import gui.SymbolsMirk;
 
-public class Hero {
+public class Hero extends Character {
 	String _name;
 	char _face = SymbolsMirk.HERO;
 	TerminalPosition _position;
@@ -14,7 +14,7 @@ public class Hero {
 	RGB _bkgColor;
 	
 	public Hero(String _name, TerminalPosition _position) {
-		super();
+		super(99, 60, 30, 40);
 		this._name = _name;
 		this._position = _position;
 

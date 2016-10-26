@@ -1,5 +1,7 @@
 package gui;
 
+import artefactos.LayerTrees;
+import artefactos.Tree2;
 import java.util.EnumSet;
 import java.util.Random;
 
@@ -33,7 +35,7 @@ public class Map extends Panel {
 	int[] waterpos = new int[LINES];
 	Tree[] treespos = new Tree[TREECOUNT];
 	Tree[] branchespos = new Tree[BRANCHESCOUNT];
-	RGB bkgColor = new TextColor.RGB(165, 127, 61);
+	public static RGB bkgColor = new TextColor.RGB(165, 127, 61);
 	
 	Characters _chars;
 
@@ -64,18 +66,21 @@ public class Map extends Panel {
 						graphics.setBackgroundColor(bkgColor);
 						graphics.setModifiers(EnumSet.of(SGR.BOLD));
 						graphics.fill(' ');
+					
+                                                LayerTrees trees = new LayerTrees();
+                                                for (int x=0; x < COLUMNS; x++) {
+                                                    for (int y=0; y< LINES; y++) {
+                                                        Tree2 t = (Tree2) trees.getMap()[x][y];
+                                                        if (t != null) {
+                                                            graphics.setBackgroundColor(t.getBackgroundColor());
+                                                            graphics.setForegroundColor(t.getForegroundColor());
+                                                            graphics.putString(x, y, String.valueOf(t.getSymbol()));
+                                                        }
+                                                    }
+                                                }
+                                                
 						
-						/*
-						 * Creates the trees and branches
-						 */
-						for (Tree t : treespos) {
-							graphics.setForegroundColor(t.getColor());
-							graphics.putString(t.getmPosition().getColumn(), t.getmPosition().getRow(), String.valueOf(t.getmTree()));
-						}
-						for (Tree t : branchespos) {
-							graphics.setForegroundColor(t.getColor());
-							graphics.putString(t.getmPosition().getColumn(), t.getmPosition().getRow(), String.valueOf(t.getmTree()));
-						}
+						
 						
 						/*
 						 * Creates the river

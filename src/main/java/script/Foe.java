@@ -1,13 +1,21 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package script;
 
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.TextColor.RGB;
-
 import gui.SymbolsMirk;
 
+/**
+ *
+ * @author Trainerpl022
+ */
 public class Foe {
-	String _name;
+   String _name;
 	char _face = SymbolsMirk.FOE;
 	TerminalPosition _position;
 	RGB _foregroundColor;
@@ -60,5 +68,5 @@ public class Foe {
 
 	public void set_bkgColor(RGB _bkgColor) {
 		this._bkgColor = _bkgColor;
-	}
+} 
 }

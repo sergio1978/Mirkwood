@@ -14,7 +14,6 @@ import com.googlecode.lanterna.gui2.EmptySpace;
 import com.googlecode.lanterna.gui2.GridLayout;
 import com.googlecode.lanterna.gui2.MultiWindowTextGUI;
 import com.googlecode.lanterna.gui2.Panel;
-import com.googlecode.lanterna.gui2.TextGUI;
 import com.googlecode.lanterna.gui2.Window;
 import com.googlecode.lanterna.gui2.WindowListener;
 import com.googlecode.lanterna.input.KeyStroke;
@@ -22,8 +21,8 @@ import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
+import javax.xml.stream.events.Characters;
 
-import script.Characters;
 import script.Hero;
 import util.AudioFilePlayer;
 
@@ -44,7 +43,7 @@ public class Mirror {
 		try {
 			init();
 
-			_chars = new Characters();
+		//	_chars = new Characters();
 
 			buildPanels();
 
@@ -59,8 +58,8 @@ public class Mirror {
 		terminal = new DefaultTerminalFactory().createTerminal();	
 		screen = new TerminalScreen(terminal);
 
-		_chars = new Characters();
-		map = new Map(_chars);
+	//	_chars = new Characters();
+		map = new Map(new script.Characters());
 
 		screen.startScreen();
 		board = new MultiWindowTextGUI(screen, new DefaultWindowManager(), new EmptySpace(TextColor.ANSI.BLACK));
